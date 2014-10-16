@@ -316,7 +316,11 @@ local function Update(self, event, unit)
 
 		bar.icon:SetTexture(bar.aura.icon)
 
-		bar.spellname:SetText(bar.aura.count > 1 and format("%s [%d]", bar.aura.name, bar.aura.count) or bar.aura.name)
+		if bar.aura.value then
+			bar.spellname:SetText(bar.aura.count > 1 and format("%s [%d] - %s", bar.aura.name, bar.aura.count, E:ShortValue(bar.aura.value)) or format("%s - %s", bar.aura.name, E:ShortValue(bar.aura.value)))
+		else
+			bar.spellname:SetText(bar.aura.count > 1 and format("%s [%d]", bar.aura.name, bar.aura.count) or bar.aura.name)
+		end
 		bar.spelltime:SetText(not bar.noTime and FormatTime(bar.aura.expirationTime-GetTime()))
 
 		-- Colour bars
