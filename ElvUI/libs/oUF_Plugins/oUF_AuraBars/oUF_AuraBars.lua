@@ -214,6 +214,7 @@ local function Update(self, event, unit)
 			auras[lastAuraIndex] = {}
 			auras[lastAuraIndex].spellID = spellID
 			auras[lastAuraIndex].name = name
+			auras[lastAuraIndex].value = 28118
 			auras[lastAuraIndex].rank = rank
 			auras[lastAuraIndex].icon = icon
 			auras[lastAuraIndex].count = count
@@ -228,7 +229,7 @@ local function Update(self, event, unit)
 		end
 	else
 		for index = 1, 40 do
-			local name, rank, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable, shouldConsolidate, spellID = UnitAura(unit, index, helpOrHarm)
+			local name, rank, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable, shouldConsolidate, spellID, _, _, _, spellValue = UnitAura(unit, index, helpOrHarm)
 			if not name then break end
 			
 			if (auraBars.filter or DefaultFilter)(self, unit, name, rank, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable, shouldConsolidate, spellID) then
@@ -236,6 +237,7 @@ local function Update(self, event, unit)
 				auras[lastAuraIndex] = {}
 				auras[lastAuraIndex].spellID = spellID
 				auras[lastAuraIndex].name = name
+				auras[lastAuraIndex].value = spellValue
 				auras[lastAuraIndex].rank = rank
 				auras[lastAuraIndex].icon = icon
 				auras[lastAuraIndex].count = count
