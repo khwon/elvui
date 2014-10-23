@@ -190,6 +190,7 @@ local function Update(self, event, unit)
 	local auraBars = self.AuraBars
 	local helpOrHarm
 	local isFriend = UnitIsFriend('player', unit)
+  local E = unpack(ElvUI)
 	
 	if auraBars.friendlyAuraType and auraBars.enemyAuraType then
 		if isFriend then
