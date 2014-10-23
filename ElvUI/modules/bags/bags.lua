@@ -520,6 +520,7 @@ function B:UpdateReagentSlot(slotID)
 	local texture, count, locked = GetContainerItemInfo(bagID, slotID);
 	local clink = GetContainerItemLink(bagID, slotID);
 	local slot = _G["ElvUIReagentBankFrameItem"..slotID]
+	if not slot then return; end
 
 	slot:Show();
 	if(slot.questIcon) then
@@ -1117,7 +1118,7 @@ function B:ContructContainerFrame(name, isBank)
 			f.currencyButton[i]:Hide();
 		end	
 		
-		f:SetScript('OnHide', CloseAllBags)
+		f:SetScript('OnHide', CloseBackpack)
 	end
 	
 	tinsert(UISpecialFrames, f:GetName()) --Keep an eye on this for taints..
@@ -1129,18 +1130,18 @@ function B:PositionBagFrames()
 	if self.BagFrame then
 		self.BagFrame:ClearAllPoints()
 		if E.db.datatexts.rightChatPanel then
-			self.BagFrame:Point('BOTTOMRIGHT', RightChatToggleButton, 'TOPRIGHT', 0 - E.db.bags.xOffset, 4 + E.db.bags.yOffset);
+			self.BagFrame:Point('BOTTOMRIGHT', RightChatToggleButton, 'TOPRIGHT', 0 + E.db.bags.xOffset, 4 + E.db.bags.yOffset);
 		else
-			self.BagFrame:Point('BOTTOMRIGHT', RightChatToggleButton, 'BOTTOMRIGHT', 0 - E.db.bags.xOffset, 0 + E.db.bags.yOffset);
+			self.BagFrame:Point('BOTTOMRIGHT', RightChatToggleButton, 'BOTTOMRIGHT', 0 + E.db.bags.xOffset, 0 + E.db.bags.yOffset);
 		end
 	end
 	
 	if self.BankFrame then
 		self.BankFrame:ClearAllPoints()
 		if E.db.datatexts.leftChatPanel then
-			self.BankFrame:Point('BOTTOMLEFT', LeftChatToggleButton, 'TOPLEFT', 0 + E.db.bags.xOffset, 4 + E.db.bags.yOffset);
+			self.BankFrame:Point('BOTTOMLEFT', LeftChatToggleButton, 'TOPLEFT', 0 + E.db.bags.xOffsetBank, 4 + E.db.bags.yOffsetBank);
 		else
-			self.BankFrame:Point('BOTTOMLEFT', LeftChatToggleButton, 'BOTTOMLEFT', 0 + E.db.bags.xOffset, 0 + E.db.bags.yOffset);
+			self.BankFrame:Point('BOTTOMLEFT', LeftChatToggleButton, 'BOTTOMLEFT', 0 + E.db.bags.xOffsetBank, 0 + E.db.bags.yOffsetBank);
 		end		
 	end
 end
@@ -1178,7 +1179,6 @@ function B:CloseBags()
 	
 	if self.BankFrame then
 		self.BankFrame:Hide();
-		BankFrame:Hide()
 	end
 	
 	E:GetModule('Tooltip'):GameTooltip_SetDefaultAnchor(GameTooltip)
@@ -1206,6 +1206,7 @@ function B:CloseBank()
 	if not self.BankFrame then return; end -- WHY???, WHO KNOWS!
 	self.BankFrame:Hide()
 	BankFrame:Hide()
+	self.BagFrame:Hide()
 end
 
 function B:GUILDBANKFRAME_OPENED()

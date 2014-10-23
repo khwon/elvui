@@ -16,6 +16,8 @@ P['general'] = {
 	['bottomPanel'] = true,
 	['hideErrorFrame'] = true,
 
+	['afk'] = true,
+	
 	["fontSize"] = 12,
 	["font"] = "ElvUI Font",
 
@@ -67,6 +69,8 @@ P['bags'] = {
     ['sortInverted'] = true,
 	['xOffset'] = 0,
 	['yOffset'] = 0,
+	['xOffsetBank'] = 0,
+	['yOffsetBank'] = 0,
 	['bagSize'] = 34,
 	['bankSize'] = 34,
 	['alignToChat'] = true,
@@ -90,6 +94,7 @@ P["nameplate"] = {
 	['fontSize'] = 7,
 	['fontOutline'] = 'MONOCHROMEOUTLINE',
 	["smallPlates"] = true,
+	["comboPoints"] = false,
 	['nonTargetAlpha'] = 0.6,
 	['combatHide'] = false,
 	['colorNameByValue'] =  true,
@@ -182,6 +187,7 @@ P['auras'] = {
 		['enable'] = true,
 		['filter'] = true,
 		['durations'] = true,
+		['position'] = "RIGHT",
 		['font'] = 'ElvUI Pixel',
 		['fontSize'] = 10,
 		['fontOutline'] = 'MONOCHROMEOUTLINE',
@@ -1917,6 +1923,7 @@ P["actionbar"] = {
 	},
 	['stanceBar'] = {
 		['enabled'] = true,
+		['style'] = 'darkenInactive',
 		['mouseover'] = false,
 		['buttonsPerRow'] = NUM_STANCE_SLOTS,
 		['buttons'] = NUM_STANCE_SLOTS,

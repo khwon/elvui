@@ -193,15 +193,16 @@ E.Options.args.general = {
 					desc = L['Display a panel across the top of the screen. This is for cosmetic only.'],
 					get = function(info) return E.db.general.topPanel end,
 					set = function(info, value) E.db.general.topPanel = value; E:GetModule('Layout'):TopPanelVisibility() end						
-				},			
-				lfrEnhancement = {
+				},	
+				afk = {
 					order = 18,
-					type = "toggle",
-					name = L['Enhance Raid Browser'],
-					desc = L['Enhance the raid browser frame by adding item level and talent spec information, also add average item level of group information to tooltips.'],
-					get = function(info) return E.private.general.lfrEnhancement end,
-					set = function(info, value) E.private.general.lfrEnhancement = value; E:StaticPopup_Show("PRIVATE_RL") end
-				},
+					type = 'toggle',
+					name = L['AFK Mode'],
+					desc = L['When you go AFK display the AFK screen.'],
+					get = function(info) return E.db.general.afk end,
+					set = function(info, value) E.db.general.afk = value; E:GetModule('AFK'):Toggle() end						
+
+				},			
 			},
 		},	
 		media = {
@@ -639,7 +640,7 @@ E.Options.args.general = {
 					type = "toggle",
 					order = 1,
 					name = L['Enable'],
-					desc = L['Display cooldown text on anything with the cooldown spiril.'],
+					desc = L['Display cooldown text on anything with the cooldown spiral.'],
 					get = function(info) return E.private.cooldown[ info[#info] ] end,
 					set = function(info, value) E.private.cooldown[ info[#info] ] = value; E:StaticPopup_Show("PRIVATE_RL") end				
 				},			
