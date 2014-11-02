@@ -473,7 +473,7 @@ end
 function CH:PositionChat(override)
 	if not self.db.lockPositions or ((InCombatLockdown() and not override and self.initialMove) or (IsMouseButtonDown("LeftButton") and not override)) then return end
 	if not RightChatPanel or not LeftChatPanel then return; end
-	RightChatPanel:SetSize(E.db.chat.panelWidth, E.db.chat.panelHeight)
+	RightChatPanel:SetSize(E.db.chat.separateSizes and E.db.chat.panelWidthRight or E.db.chat.panelWidth, E.db.chat.separateSizes and E.db.chat.panelHeightRight or E.db.chat.panelHeight)
 	LeftChatPanel:SetSize(E.db.chat.panelWidth, E.db.chat.panelHeight)	
 	
 	if E.private.chat.enable ~= true then return end
@@ -518,7 +518,6 @@ function CH:PositionChat(override)
 				isDocked = false
 			end	
 		end	
-
 		
 		if point == "BOTTOMRIGHT" and chat:IsShown() and not (id > NUM_CHAT_WINDOWS) and id == self.RightChatWindowID then
 			chat:ClearAllPoints()
@@ -529,12 +528,11 @@ function CH:PositionChat(override)
 				chat:SetPoint("BOTTOMLEFT", RightChatDataPanel, "BOTTOMLEFT", 1, 1)
 			end
 			if id ~= 2 then
-				chat:SetSize(E.db.chat.panelWidth - 11, (E.db.chat.panelHeight - BASE_OFFSET))
+				chat:SetSize((E.db.chat.separateSizes and E.db.chat.panelWidthRight or E.db.chat.panelWidth) - 11, (E.db.chat.separateSizes and E.db.chat.panelHeightRight or E.db.chat.panelHeight) - BASE_OFFSET)
 			else
 				chat:SetSize(E.db.chat.panelWidth - 11, (E.db.chat.panelHeight - BASE_OFFSET) - CombatLogQuickButtonFrame_Custom:GetHeight())				
 			end
-			
-			
+
 			FCF_SavePositionAndDimensions(chat)			
 			
 			tab:SetParent(RightChatPanel)
@@ -1201,20 +1199,23 @@ function CH:SetupChat(event, ...)
 		frame:SetShadowOffset((E.mult or 1), -(E.mult or 1))	
 		frame:SetFading(self.db.fade)
 		
-		frame:SetScript("OnHyperlinkClick", URLChatFrame_OnHyperlinkShow)
-		frame:SetScript("OnMouseWheel", ChatFrame_OnMouseScroll)
-		
-		if id > NUM_CHAT_WINDOWS then
-			frame:SetScript("OnEvent", CH.FloatingChatFrame_OnEvent)
-		elseif id ~= 2 then
-			frame:SetScript("OnEvent", CH.ChatFrame_OnEvent)
-		end
-		
-		hooksecurefunc(frame, "SetScript", function(f, script, func)
-			if script == "OnMouseWheel" and func ~= ChatFrame_OnMouseScroll then
-				f:SetScript(script, ChatFrame_OnMouseScroll)
+		if not frame.scriptsSet then
+			frame:SetScript("OnHyperlinkClick", URLChatFrame_OnHyperlinkShow)
+			frame:SetScript("OnMouseWheel", ChatFrame_OnMouseScroll)
+			
+			if id > NUM_CHAT_WINDOWS then
+				frame:SetScript("OnEvent", CH.FloatingChatFrame_OnEvent)
+			elseif id ~= 2 then
+				frame:SetScript("OnEvent", CH.ChatFrame_OnEvent)
 			end
-		end)
+			
+			hooksecurefunc(frame, "SetScript", function(f, script, func)
+				if script == "OnMouseWheel" and func ~= ChatFrame_OnMouseScroll then
+					f:SetScript(script, ChatFrame_OnMouseScroll)
+				end
+			end)
+			frame.scriptsSet = true
+		end
 	
 		if not _G[frameName.."Tab"].glow.anim then
 			E:SetUpAnimGroup(_G[frameName.."Tab"].glow)

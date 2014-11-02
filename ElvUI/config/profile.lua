@@ -77,6 +77,8 @@ P['bags'] = {
 	['bagWidth'] = 350,
 	['bankWidth'] = 350,
 	['currencyFormat'] = 'ICON_TEXT',
+	['moneyFormat'] = 'SMART',
+	['moneyCoins'] = true,
 	['ignoreItems'] = '',
 	['bagBar'] = {
 		['growthDirection'] = 'VERTICAL',
@@ -98,6 +100,8 @@ P["nameplate"] = {
 	['nonTargetAlpha'] = 0.6,
 	['combatHide'] = false,
 	['colorNameByValue'] =  true,
+	['showName'] = true,
+	['showLevel'] = true,
 	['targetIndicator'] = {
 		['enable'] = true,
 		['style'] = 'glow',
@@ -237,8 +241,11 @@ P['chat'] = {
 	['lfgIcons'] = true,
 	['timeStampFormat'] = 'NONE',
 	['keywords'] = '%MYNAME%, ElvUI',
+	['separateSizes'] = false,
 	['panelWidth'] = 412,
 	['panelHeight'] = 180,
+	['panelWidthRight'] = 412,
+	['panelHeightRight'] = 180,
 	['panelBackdropNameLeft'] = '',
 	['panelBackdropNameRight'] = '',
 	['panelBackdrop'] = 'SHOWBOTH',
@@ -278,6 +285,8 @@ P['datatexts'] = {
 	['leftChatPanel'] = true,
 	['rightChatPanel'] = true,
 	['panelTransparency'] = false,
+	['goldFormat'] = 'BLIZZARD',
+	['goldCoins'] = false,
 }
 
 --Tooltip
@@ -287,7 +296,7 @@ P['tooltip'] = {
 	['playerTitles'] = true,
 	['guildRanks'] = true,
 	['inspectInfo'] = true,
-	['itemCount'] = true,
+	['itemCount'] = 'BAGS_ONLY',
 	['spellID'] = true,
 	['visibility'] = {
 		['unitFrames'] = 'NONE',
@@ -460,6 +469,7 @@ P['unitframe'] = {
 				['useFilter'] = '',
 				['xOffset'] = 0,
 				['yOffset'] = 0,
+				['spacing'] = 0,
 			},
 			['debuffs'] = {
 				['enable'] = true,
@@ -478,6 +488,7 @@ P['unitframe'] = {
 				['useFilter'] = '',
 				['xOffset'] = 0,
 				['yOffset'] = 0,
+				['spacing'] = 0,
 			},
 			['castbar'] = {
 				['enable'] = true,
@@ -587,6 +598,7 @@ P['unitframe'] = {
 				['useFilter'] = '',
 				['xOffset'] = 0,
 				['yOffset'] = 0,
+				['spacing'] = 0,
 			},
 			['debuffs'] = {
 				['enable'] = true,
@@ -605,6 +617,7 @@ P['unitframe'] = {
 				['useFilter'] = '',
 				['xOffset'] = 0,
 				['yOffset'] = 0,
+				['spacing'] = 0,
 			},
 			['castbar'] = {
 				['enable'] = true,
@@ -695,6 +708,7 @@ P['unitframe'] = {
 				['useFilter'] = '',
 				['xOffset'] = 0,
 				['yOffset'] = 0,
+				['spacing'] = 0,
 			},
 			['debuffs'] = {
 				['enable'] = true,
@@ -713,6 +727,7 @@ P['unitframe'] = {
 				['useFilter'] = '',
 				['xOffset'] = 0,
 				['yOffset'] = 0,
+				['spacing'] = 0,
 			},	
 			['raidicon'] = {
 				['enable'] = true,
@@ -769,6 +784,7 @@ P['unitframe'] = {
 				['useFilter'] = '',
 				['xOffset'] = 0,
 				['yOffset'] = 0,
+				['spacing'] = 0,
 			},
 			['debuffs'] = {
 				['enable'] = true,
@@ -787,6 +803,7 @@ P['unitframe'] = {
 				['useFilter'] = '',
 				['xOffset'] = 0,
 				['yOffset'] = 0,
+				['spacing'] = 0,
 			},	
 			['raidicon'] = {
 				['enable'] = true,
@@ -844,6 +861,7 @@ P['unitframe'] = {
 				['useFilter'] = '',
 				['xOffset'] = 0,
 				['yOffset'] = 0,
+				['spacing'] = 0,
 			},
 			['debuffs'] = {
 				['enable'] = true,
@@ -862,6 +880,7 @@ P['unitframe'] = {
 				['useFilter'] = '',
 				['xOffset'] = 0,
 				['yOffset'] = 0,
+				['spacing'] = 0,
 			},	
 			['castbar'] = {
 				['enable'] = true,
@@ -944,6 +963,7 @@ P['unitframe'] = {
 				['useFilter'] = '',
 				['xOffset'] = 0,
 				['yOffset'] = 0,
+				['spacing'] = 0,
 			},
 			['debuffs'] = {
 				['enable'] = false,
@@ -962,6 +982,7 @@ P['unitframe'] = {
 				['useFilter'] = '',
 				['xOffset'] = 0,
 				['yOffset'] = 0,
+				['spacing'] = 0,
 			},
 			['raidicon'] = {
 				['enable'] = true,
@@ -1019,6 +1040,7 @@ P['unitframe'] = {
 				['useFilter'] = '',
 				['xOffset'] = 0,
 				['yOffset'] = 0,
+				['spacing'] = 0,
 			},
 			['debuffs'] = {
 				['enable'] = false,
@@ -1037,6 +1059,7 @@ P['unitframe'] = {
 				['useFilter'] = '',
 				['xOffset'] = 0,
 				['yOffset'] = 0,
+				['spacing'] = 0,
 			},	
 			['buffIndicator'] = {
 				['enable'] = true,
@@ -1091,6 +1114,7 @@ P['unitframe'] = {
 				['useFilter'] = '',
 				['xOffset'] = 0,
 				['yOffset'] = 0,
+				['spacing'] = 0,
 			},
 			['debuffs'] = {
 				['enable'] = false,
@@ -1109,6 +1133,7 @@ P['unitframe'] = {
 				['useFilter'] = '',
 				['xOffset'] = 0,
 				['yOffset'] = 0,
+				['spacing'] = 0,
 			},			
 		},	
 		['boss'] = {
@@ -1166,6 +1191,7 @@ P['unitframe'] = {
 				['useFilter'] = '',
 				['xOffset'] = 0,
 				['yOffset'] = 11,
+				['spacing'] = 0,
 				['sizeOverride'] = 22,
 			},
 			['debuffs'] = {
@@ -1185,6 +1211,7 @@ P['unitframe'] = {
 				['useFilter'] = '',
 				['xOffset'] = 0,
 				['yOffset'] = -11,
+				['spacing'] = 0,
 				['sizeOverride'] = 22,
 			},	
 			['castbar'] = {
@@ -1253,7 +1280,8 @@ P['unitframe'] = {
 				['bossAuras'] = {friendly = false, enemy = false},
 				['sizeOverride'] = 22,
 				['xOffset'] = 0,
-				['yOffset'] = 12
+				['yOffset'] = 12,
+				['spacing'] = 0,
 			},
 			['debuffs'] = {
 				['enable'] = true,
@@ -1272,7 +1300,8 @@ P['unitframe'] = {
 				['bossAuras'] = {friendly = false, enemy = false},
 				['sizeOverride'] = 22,
 				['xOffset'] = 0,
-				['yOffset'] = -13,				
+				['yOffset'] = -13,
+				['spacing'] = 0,
 			},	
 			['castbar'] = {
 				['enable'] = true,
@@ -1354,6 +1383,7 @@ P['unitframe'] = {
 				['useFilter'] = '',
 				['xOffset'] = 0,
 				['yOffset'] = 0,
+				['spacing'] = 0,
 			},
 			['debuffs'] = {
 				['enable'] = true,
@@ -1373,6 +1403,7 @@ P['unitframe'] = {
 				['useFilter'] = '',
 				['xOffset'] = 0,
 				['yOffset'] = 0,
+				['spacing'] = 0,
 				['sizeOverride'] = 44,
 			},	
 			['buffIndicator'] = {
@@ -1482,6 +1513,7 @@ P['unitframe'] = {
 				['useFilter'] = '',
 				['xOffset'] = 0,
 				['yOffset'] = 0,
+				['spacing'] = 0,
 			},
 			['debuffs'] = {
 				['enable'] = false,
@@ -1501,6 +1533,7 @@ P['unitframe'] = {
 				['useFilter'] = '',
 				['xOffset'] = 0,
 				['yOffset'] = 0,
+				['spacing'] = 0,
 			},	
 			['buffIndicator'] = {
 				['enable'] = true,
@@ -1542,7 +1575,6 @@ P['unitframe'] = {
 			['rangeCheck'] = true,
 			['threatStyle'] = 'GLOW',
 			['visibility'] = '[@raid26,noexists] hide;show',
-			
 			['growthDirection'] = 'RIGHT_DOWN',
 			['horizontalSpacing'] = 3,
 			['verticalSpacing'] = 3,
@@ -1599,6 +1631,7 @@ P['unitframe'] = {
 				['useFilter'] = '',
 				['xOffset'] = 0,
 				['yOffset'] = 0,
+				['spacing'] = 0,
 			},
 			['debuffs'] = {
 				['enable'] = false,
@@ -1618,6 +1651,7 @@ P['unitframe'] = {
 				['useFilter'] = '',
 				['xOffset'] = 0,
 				['yOffset'] = 0,
+				['spacing'] = 0,
 			},	
 			['rdebuffs'] = {
 				['enable'] = false,
@@ -1706,6 +1740,7 @@ P['unitframe'] = {
 				['useFilter'] = '',
 				['xOffset'] = 0,
 				['yOffset'] = 0,
+				['spacing'] = 0,
 			},
 			['debuffs'] = {
 				['enable'] = false,
@@ -1725,6 +1760,7 @@ P['unitframe'] = {
 				['useFilter'] = '',
 				['xOffset'] = 0,
 				['yOffset'] = 0,
+				['spacing'] = 0,
 			},	
 			['buffIndicator'] = {
 				['enable'] = true,

@@ -269,29 +269,40 @@ function NP:UpdateLevelAndName(myPlate)
 	if region and region:GetObjectType() == 'FontString' then
 		self.level = region
 	end
-
-	if self.level:IsShown() then
-		local level, elite, boss, mylevel = self.level:GetObjectType() == 'FontString' and tonumber(self.level:GetText()) or nil, self.eliteIcon:IsShown(), self.bossIcon:IsShown(), UnitLevel("player")
-		if boss then
-			myPlate.level:SetText("??")
-			myPlate.level:SetTextColor(0.8, 0.05, 0)
-		elseif level then
-			myPlate.level:SetText(level..(elite and "+" or ""))
-			myPlate.level:SetTextColor(self.level:GetTextColor())
-		end
-	elseif self.bossIcon:IsShown() and myPlate.level:GetText() ~= '??' then
-		myPlate.level:SetText("??")
-		myPlate.level:SetTextColor(0.8, 0.05, 0)
-	end
-
-	if self.isSmall then
+	
+	if not NP.db.showLevel then
 		myPlate.level:SetText("")
 		myPlate.level:Hide()
-	elseif not myPlate.level:IsShown() then
-		myPlate.level:Show()
+	else
+		if self.level:IsShown() then
+			local level, elite, boss, mylevel = self.level:GetObjectType() == 'FontString' and tonumber(self.level:GetText()) or nil, self.eliteIcon:IsShown(), self.bossIcon:IsShown(), UnitLevel("player")
+			if boss then
+				myPlate.level:SetText("??")
+				myPlate.level:SetTextColor(0.8, 0.05, 0)
+			elseif level then
+				myPlate.level:SetText(level..(elite and "+" or ""))
+				myPlate.level:SetTextColor(self.level:GetTextColor())
+			end
+		elseif self.bossIcon:IsShown() and myPlate.level:GetText() ~= '??' then
+			myPlate.level:SetText("??")
+			myPlate.level:SetTextColor(0.8, 0.05, 0)
+		end
+
+		if self.isSmall then
+			myPlate.level:SetText("")
+			myPlate.level:Hide()
+		elseif not myPlate.level:IsShown() then
+			myPlate.level:Show()
+		end
 	end
 
-	myPlate.name:SetText(self.name:GetText())
+	if not NP.db.showName then
+		myPlate.name:SetText("")
+		myPlate.name:Hide()
+	else
+		myPlate.name:SetText(self.name:GetText())
+		if not myPlate.name:IsShown() then myPlate.name:Show() end
+	end
 end
 
 function NP:GetReaction(frame)
@@ -479,7 +490,6 @@ function NP:SetUnitInfo(myPlate)
 		myPlate.overlay:Hide()
 		self.unit = nil
 	end
-
 end
 
 function NP:PLAYER_ENTERING_WORLD()
@@ -1385,15 +1395,20 @@ function NP:GetAuraInstance(guid, auraID)
 	end
 end
 
+local debugAuras = {}
+
 function NP:SetAuraInstance(guid, spellID, expiration, stacks, caster, duration, texture, auraType, auraTarget)
 	local filter = false
 	local db = self.db.buffs
 	if(auraType == AURA_TYPE_DEBUFF) then
 		db = self.db.debuffs
 	end
+	local name = GetSpellInfo(spellID)
 
 	if (db.showPersonal and caster == UnitGUID('player')) then
 		filter = true;
+		--print("The aura: ", name, " was allowed because you are the caster")
+		debugAuras[name] = true
 	end
 	
 	local trackFilter = E.global['unitframe']['aurafilters'][db.additionalFilter]
@@ -1404,19 +1419,49 @@ function NP:SetAuraInstance(guid, spellID, expiration, stacks, caster, duration,
 		if type == 'Blacklist' then
 			if spellList[name] and spellList[name].enable then
 				filter = false;
+				--[[if debugAuras[name] and debugAuras[name] == true then
+					print("The aura: ", name, " was previously allowed but now filtered out because of a blacklist filter")
+				else
+					print("The aura: ", name, " was filtered out because of a blacklist filter")
+				end]]
+				debugAuras[name] = false
 			end
 		else
 			if spellList[name] and spellList[name].enable then
 				filter = true;
+				--[[if debugAuras[name] and debugAuras[name] == true then
+					print("The aura: ", name, " was previously allowed and is now allowed because of a whitelist filter")
+				elseif debugAuras[name] and debugAuras[name] == false then
+					print("The aura: ", name, " was previously disallowed and is now allowed because of a whitelist filter")
+				else
+					print("The aura: ", name, " was allowed because of a whitelist filter")
+				end]]
+				debugAuras[name] = true
 			end
 			if trackFilter == 'Whitelist (Strict)' and spellList[name].spellID and not spellList[name].spellID == spellID then
 				filter = false;
+				if debugAuras[name] and debugAuras[name] == true then
+					print("The aura: ", name, " was previously allowed but now filtered out because of a strict whitelist filter")
+				elseif debugAuras[name] and debugAuras[name] == false then
+					print("The aura: ", name, " was previously disallowed and still filtered out because of a strict whitelist filter")
+				else
+					print("The aura: ", name, " was filtered out because of a strict whitelist filter")
+				end
+				debugAuras[name] = false
 			end
 		end
 	end
 	
 	if E.global.unitframe.InvalidSpells[spellID] then
 		filter = false;
+		if debugAuras[name] and debugAuras[name] == true then
+			print("The aura: ", name, " was previously allowed but now filtered out because of a global blacklist filter")
+		elseif debugAuras[name] and debugAuras[name] == false then
+			print("The aura: ", name, " was previously disallowed and still filtered out because of a global blacklist filter")
+		else
+			print("The aura: ", name, " was filtered out because of a global blacklist filter")
+		end
+		debugAuras[name] = false
 	end
 
 	if filter ~= true then

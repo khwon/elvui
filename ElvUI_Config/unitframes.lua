@@ -402,7 +402,7 @@ local function GetOptionsTable_Auras(friendlyUnitOnly, auraType, isGroupFrame, u
 				type = 'range',
 				order = 3,
 				name = L['Num Rows'],
-				min = 1, max = 4, step = 1,					
+				min = 1, max = 10, step = 1,
 			},	
 			sizeOverride = {
 				type = 'range',
@@ -435,7 +435,14 @@ local function GetOptionsTable_Auras(friendlyUnitOnly, auraType, isGroupFrame, u
 				name = L["Font Size"],
 				type = "range",
 				min = 6, max = 22, step = 1,
-			},	
+			},
+			spacing = {
+				order = 14,
+				type = 'range',
+				name = L["Aura Spacing"],
+				desc = L["Set space between each aura icon."],
+				min = 0, max = 10, step = 1,
+			},
 			clickThrough = {
 				order = 15,
 				name = L['Click Through'],
@@ -2837,7 +2844,7 @@ E.Options.args.unitframe.args.boss = {
 			order = 3,
 			name = L['Display Frames'],
 			desc = L['Force the frames to show, they will act as if they are the player frame.'],
-			func = function() UF:ToggleForceShowGroupFrames('boss', 4) end,
+			func = function() UF:ToggleForceShowGroupFrames('boss', MAX_BOSS_FRAMES) end,
 		},
 		width = {
 			order = 4,

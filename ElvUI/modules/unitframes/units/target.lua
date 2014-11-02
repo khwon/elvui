@@ -368,6 +368,7 @@ function UF:Update_TargetFrame(frame, db)
 		
 		buffs.forceShow = frame.forceShowAuras
 		buffs.num = db.buffs.perrow * rows
+		buffs.spacing = db.buffs.spacing
 		buffs.size = db.buffs.sizeOverride ~= 0 and db.buffs.sizeOverride or ((((buffs:GetWidth() - (buffs.spacing*(buffs.num/rows - 1))) / buffs.num)) * rows)
 		
 		if db.buffs.sizeOverride and db.buffs.sizeOverride > 0 then
@@ -404,6 +405,7 @@ function UF:Update_TargetFrame(frame, db)
 		
 		debuffs.forceShow = frame.forceShowAuras
 		debuffs.num = db.debuffs.perrow * rows
+		debuffs.spacing = db.debuffs.spacing
 		debuffs.size = db.debuffs.sizeOverride ~= 0 and db.debuffs.sizeOverride or ((((debuffs:GetWidth() - (debuffs.spacing*(debuffs.num/rows - 1))) / debuffs.num)) * rows)
 		
 		if db.debuffs.sizeOverride and db.debuffs.sizeOverride > 0 then
@@ -496,11 +498,11 @@ function UF:Update_TargetFrame(frame, db)
 				CPoints.mover:SetAlpha(0)
 			end				
 		else
-			COMBOBAR_WIDTH = db.combobar.detachedWidth
+			COMBOBAR_WIDTH = db.combobar.detachedWidth - (BORDER*2)
 
 			if not CPoints.mover then
 				CPoints:Width(COMBOBAR_WIDTH)
-				CPoints:Height(COMBOBAR_HEIGHT - (BORDER*2))					
+				CPoints:Height(COMBOBAR_HEIGHT - (E.PixelMode and 1 or 4))					
 				CPoints:ClearAllPoints()
 				CPoints:Point("BOTTOM", E.UIParent, "BOTTOM", 0, 150)
 				E:CreateMover(CPoints, 'ComboBarMover', L['Combobar'], nil, nil, nil, 'ALL,SOLO')
@@ -515,14 +517,15 @@ function UF:Update_TargetFrame(frame, db)
 		end
 
 		CPoints:Width(COMBOBAR_WIDTH)
-		CPoints:Height(COMBOBAR_HEIGHT - (BORDER*2))			
+		CPoints:Height(COMBOBAR_HEIGHT - (E.PixelMode and 1 or 4))			
 		
 		for i = 1, MAX_COMBO_POINTS do
 			CPoints[i]:SetHeight(CPoints:GetHeight())
-			CPoints[i]:SetWidth(E:Scale(CPoints:GetWidth() - (MAX_COMBO_POINTS - 1)) / MAX_COMBO_POINTS)	
 			if db.combobar.fill == "spaced" then
+				CPoints[i]:SetWidth(E:Scale(CPoints:GetWidth() - ((SPACING+(BORDER*2)+2) * (MAX_COMBO_POINTS - 1))) / MAX_COMBO_POINTS)
 				CPoints[i].backdrop:Show()
 			else
+				CPoints[i]:SetWidth(E:Scale(CPoints:GetWidth() - (MAX_COMBO_POINTS - 1)) / MAX_COMBO_POINTS)
 				CPoints[i].backdrop:Hide()	
 			end
 			
