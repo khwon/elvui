@@ -195,6 +195,36 @@ ElvUF.Tags.Methods['health:percent'] = function(unit)
 	end
 end
 
+ElvUF.Tags.Events['health:current-nostatus'] = 'UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH'
+ElvUF.Tags.Methods['health:current-nostatus'] = function(unit)
+	return E:GetFormattedText('CURRENT', UnitHealth(unit), UnitHealthMax(unit))
+end
+
+ElvUF.Tags.Events['health:deficit-nostatus'] = 'UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH'
+ElvUF.Tags.Methods['health:deficit-nostatus'] = function(unit)
+	return E:GetFormattedText('DEFICIT', UnitHealth(unit), UnitHealthMax(unit))
+end
+
+ElvUF.Tags.Events['health:current-percent-nostatus'] = 'UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH'
+ElvUF.Tags.Methods['health:current-percent-nostatus'] = function(unit)
+	return E:GetFormattedText('CURRENT_PERCENT', UnitHealth(unit), UnitHealthMax(unit))
+end
+
+ElvUF.Tags.Events['health:current-max-nostatus'] = 'UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH'
+ElvUF.Tags.Methods['health:current-max-nostatus'] = function(unit)
+	return E:GetFormattedText('CURRENT_MAX', UnitHealth(unit), UnitHealthMax(unit))
+end
+
+ElvUF.Tags.Events['health:current-max-percent-nostatus'] = 'UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH'
+ElvUF.Tags.Methods['health:current-max-percent-nostatus'] = function(unit)
+	return E:GetFormattedText('CURRENT_MAX_PERCENT', UnitHealth(unit), UnitHealthMax(unit))
+end
+
+ElvUF.Tags.Events['health:percent-nostatus'] = 'UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH'
+ElvUF.Tags.Methods['health:percent-nostatus'] = function(unit)
+	return E:GetFormattedText('PERCENT', UnitHealth(unit), UnitHealthMax(unit))
+end
+
 ElvUF.Tags.Events['powercolor'] = 'UNIT_DISPLAYPOWER UNIT_POWER_FREQUENT UNIT_MAXPOWER'
 ElvUF.Tags.Methods['powercolor'] = function(unit)
 	local pType, pToken, altR, altG, altB = UnitPowerType(unit)	
@@ -455,15 +485,24 @@ end
 local unitStatus = {}
 ElvUF.Tags.OnUpdateThrottle['statustimer'] = 1
 ElvUF.Tags.Methods['statustimer'] = function(unit)
+	if not UnitIsPlayer(unit) then return; end
 	local guid = UnitGUID(unit)
 	if (UnitIsAFK(unit)) then
-		if not unitStatus[guid] then unitStatus[guid] = {'AFK', GetTime()} end
+		if not unitStatus[guid] or unitStatus[guid] and unitStatus[guid][1] ~= 'AFK' then 
+			unitStatus[guid] = {'AFK', GetTime()} 
+		end
 	elseif(UnitIsDND(unit)) then
-		if not unitStatus[guid] then unitStatus[guid] = {'DND', GetTime()} end
+		if not unitStatus[guid] or unitStatus[guid] and unitStatus[guid][1] ~= 'DND' then 
+			unitStatus[guid] = {'DND', GetTime()} 
+		end
 	elseif(UnitIsDead(unit)) or (UnitIsGhost(unit))then
-		if not unitStatus[guid] then unitStatus[guid] = {'Dead', GetTime()} end
+		if not unitStatus[guid] or unitStatus[guid] and unitStatus[guid][1] ~= 'Dead' then 
+			unitStatus[guid] = {'Dead', GetTime()} 
+		end
 	elseif(not UnitIsConnected(unit)) then
-		if not unitStatus[guid] then unitStatus[guid] = {'Offline', GetTime()} end
+		if not unitStatus[guid] or unitStatus[guid] and unitStatus[guid][1] ~= 'Offline' then 
+			unitStatus[guid] = {'Offline', GetTime()} 
+		end
 	else
 		unitStatus[guid] = nil
 	end
