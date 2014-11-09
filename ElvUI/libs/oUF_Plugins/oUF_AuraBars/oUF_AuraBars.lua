@@ -230,8 +230,20 @@ local function Update(self, event, unit)
 		end
 	else
 		for index = 1, 40 do
-			local name, rank, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable, shouldConsolidate, spellID, _, _, _, spellValue = UnitAura(unit, index, helpOrHarm)
+			local name, rank, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable, shouldConsolidate, spellID, _, _, _, v1, v2, v3 = UnitAura(unit, index, helpOrHarm)
 			if not name then break end
+      local spellValue = -1
+      local minValue = 200
+      if v1 and v1 > spellValue then
+        spellValue = v1
+      end
+      if v2 and v2 > spellValue then
+        spellValue = v2
+      end
+      if v3 and v3 > spellValue then
+        spellValue = v3
+      end
+      if spellValue < minValue then spellValue = nil end
 			
 			if (auraBars.filter or DefaultFilter)(self, unit, name, rank, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable, shouldConsolidate, spellID) then
 				lastAuraIndex = lastAuraIndex + 1
