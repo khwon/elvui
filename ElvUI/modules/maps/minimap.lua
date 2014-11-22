@@ -54,6 +54,8 @@ local menuList = {
 	func = function() ToggleFriendsFrame() end},
 	{text = L["Calendar"],
 	func = function() GameTimeFrame:Click() end},
+	{text = GARRISON_LANDING_PAGE_TITLE,
+	func = function() GarrisonLandingPageMinimapButton_OnClick() end},
 	{text = ACHIEVEMENTS_GUILD_TAB,
 	func = function()
 		if IsInGuild() then
@@ -69,7 +71,7 @@ local menuList = {
 	func = function() PVEFrame_ToggleFrame(); end},
 	--[[{text = L["Raid Browser"],
 	func = function() ToggleFrame(RaidBrowserFrame); end},]]
-	{text = ENCOUNTER_JOURNAL, 
+	{text = ENCOUNTER_JOURNAL,
 	func = function() if not IsAddOnLoaded('Blizzard_EncounterJournal') then EncounterJournal_LoadUI(); end ToggleFrame(EncounterJournal) end}
 }
 
@@ -232,6 +234,51 @@ function M:UpdateSettings()
 	if ElvUI_ConsolidatedBuffs then
 		E:GetModule('Auras'):Update_ConsolidatedBuffsSettings()
 	end
+
+	if GarrisonLandingPageMinimapButton then
+		local pos = E.db.general.minimap.icons.garrison.position or "TOPLEFT"
+		GarrisonLandingPageMinimapButton:ClearAllPoints()
+		GarrisonLandingPageMinimapButton:SetPoint(pos, Minimap, pos, E.db.general.minimap.icons.garrison.xOffset or 0, E.db.general.minimap.icons.garrison.yOffset or 0)
+	end
+	
+	if GameTimeFrame then
+		if E.private.general.minimap.hideCalendar then
+			GameTimeFrame:Hide()
+		else
+			GameTimeFrame:Show()
+			local pos = E.db.general.minimap.icons.calendar.position or "TOPRIGHT"
+			GameTimeFrame:ClearAllPoints()
+			GameTimeFrame:SetPoint(pos, Minimap, pos, E.db.general.minimap.icons.calendar.xOffset or 0, E.db.general.minimap.icons.calendar.yOffset or 0)
+		end
+	end
+	
+	if MiniMapMailFrame then
+		local pos = E.db.general.minimap.icons.mail.position or "TOPRIGHT"
+		MiniMapMailFrame:ClearAllPoints()
+		MiniMapMailFrame:SetPoint(pos, Minimap, pos, E.db.general.minimap.icons.mail.xOffset or 3, E.db.general.minimap.icons.mail.yOffset or 4)
+	end
+	
+	if QueueStatusMinimapButton then
+		local pos = E.db.general.minimap.icons.lfgEye.position or "BOTTOMRIGHT"
+		QueueStatusMinimapButton:ClearAllPoints()
+		QueueStatusMinimapButton:SetPoint(pos, Minimap, pos, E.db.general.minimap.icons.lfgEye.xOffset or 3, E.db.general.minimap.icons.lfgEye.yOffset or 0)
+	end
+	
+	if MiniMapInstanceDifficulty and GuildInstanceDifficulty then
+		local pos = E.db.general.minimap.icons.difficulty.position or "TOPLEFT"
+		local x = E.db.general.minimap.icons.difficulty.xOffset or 0
+		local y = E.db.general.minimap.icons.difficulty.yOffset or 0
+		MiniMapInstanceDifficulty:ClearAllPoints()
+		MiniMapInstanceDifficulty:SetPoint(pos, Minimap, pos, x, y)
+		GuildInstanceDifficulty:ClearAllPoints()
+		GuildInstanceDifficulty:SetPoint(pos, Minimap, pos, x, y)
+	end
+	
+	if MiniMapChallengeMode then
+		local pos = E.db.general.minimap.icons.challengeMode.position or "TOPLEFT"
+		MiniMapChallengeMode:ClearAllPoints()
+		MiniMapChallengeMode:SetPoint(pos, Minimap, pos, E.db.general.minimap.icons.challengeMode.xOffset or 8, E.db.general.minimap.icons.challengeMode.yOffset or -8)
+	end
 end
 
 function M:Initialize()	
@@ -291,38 +338,25 @@ function M:Initialize()
 
 	MinimapNorthTag:Kill()
 
-	GameTimeFrame:Hide()
-
 	MinimapZoneTextButton:Hide()
 
 	MiniMapTracking:Hide()
 
-	MiniMapMailFrame:ClearAllPoints()
-	MiniMapMailFrame:Point("TOPRIGHT", Minimap, 3, 4)
 	MiniMapMailBorder:Hide()
 	MiniMapMailIcon:SetTexture("Interface\\AddOns\\ElvUI\\media\\textures\\mail")
 
-	GarrisonLandingPageMinimapButton:ClearAllPoints()
-	GarrisonLandingPageMinimapButton:SetPoint("TOPLEFT", Minimap)
+	if E.private.general.minimap.hideGarrison then
+		GarrisonLandingPageMinimapButton:Kill()
+	end
 
-	QueueStatusMinimapButton:ClearAllPoints()
-	QueueStatusMinimapButton:Point("BOTTOMRIGHT", Minimap, 3, 0)
 	QueueStatusMinimapButtonBorder:Hide()
 	QueueStatusFrame:SetClampedToScreen(true)
 
 	MiniMapWorldMapButton:Hide()
 
-	MiniMapInstanceDifficulty:ClearAllPoints()
 	MiniMapInstanceDifficulty:SetParent(Minimap)
-	MiniMapInstanceDifficulty:Point("TOPLEFT", Minimap, "TOPLEFT", 0, 0)
-
-	GuildInstanceDifficulty:ClearAllPoints()
 	GuildInstanceDifficulty:SetParent(Minimap)
-	GuildInstanceDifficulty:Point("TOPLEFT", Minimap, "TOPLEFT", 0, 0)
-	
-	MiniMapChallengeMode:ClearAllPoints()
 	MiniMapChallengeMode:SetParent(Minimap)
-	MiniMapChallengeMode:Point("TOPLEFT", Minimap, "TOPLEFT", 8, -8)
 	
 	if TimeManagerClockButton then
 		TimeManagerClockButton:Kill()

@@ -302,7 +302,8 @@ E.Options.args.general = {
 							hasAlpha = false,
 							get = function(info)
 								local t = E.db.general[ info[#info] ]
-								return t.r, t.g, t.b, t.a
+								local d = P.general[info[#info]]
+								return t.r, t.g, t.b, t.a, d.r, d.g, d.b
 							end,
 							set = function(info, r, g, b)
 								E.db.general[ info[#info] ] = {}
@@ -321,7 +322,8 @@ E.Options.args.general = {
 							hasAlpha = false,
 							get = function(info)
 								local t = E.db.general[ info[#info] ]
-								return t.r, t.g, t.b, t.a
+								local d = P.general[info[#info]]
+								return t.r, t.g, t.b, t.a, d.r, d.g, d.b
 							end,
 							set = function(info, r, g, b)
 								E.db.general[ info[#info] ] = {}
@@ -339,7 +341,8 @@ E.Options.args.general = {
 							hasAlpha = true,
 							get = function(info)
 								local t = E.db.general[ info[#info] ]
-								return t.r, t.g, t.b, t.a
+								local d = P.general[info[#info]]
+								return t.r, t.g, t.b, t.a, d.r, d.g, d.b, d.a
 							end,
 							set = function(info, r, g, b, a)
 								E.db.general[ info[#info] ] = {}
@@ -357,7 +360,8 @@ E.Options.args.general = {
 							hasAlpha = false,
 							get = function(info)
 								local t = E.db.general[ info[#info] ]
-								return t.r, t.g, t.b, t.a
+								local d = P.general[info[#info]]
+								return t.r, t.g, t.b, t.a, d.r, d.g, d.b
 							end,
 							set = function(info, r, g, b, a)
 								E.db.general[ info[#info] ] = {}
@@ -366,19 +370,6 @@ E.Options.args.general = {
 								E:UpdateMedia()
 							end,						
 						},						
-						resetbutton = {
-							type = "execute",
-							order = 5,
-							name = L["Restore Defaults"],
-							func = function() 
-								E.db.general.backdropcolor = P.general.backdropcolor
-								E.db.general.backdropfadecolor = P.general.backdropfadecolor
-								E.db.general.bordercolor = P.general.bordercolor
-								E.db.general.valuecolor = P.general.valuecolor
-								E:UpdateMedia()
-								E:UpdateFrameTemplates()								
-							end,
-						},
 					},
 				},
 			},
@@ -419,7 +410,257 @@ E.Options.args.general = {
 						['HIDE'] = L['Hide'],
 					},
 					disabled = function() return not E.private.general.minimap.enable end,
-				},				
+				},
+				icons = {
+					order = 4,
+					type = 'group',
+					name = L["Minimap Buttons"],
+					guiInline = true,
+					args = {
+						garrison = {
+							order = 1,
+							type = 'group',
+							name = GARRISON_LOCATION_TOOLTIP,
+							guiInline = true,
+							get = function(info) return E.db.general.minimap.icons.garrison[ info[#info] ] end,
+							set = function(info, value) E.db.general.minimap.icons.garrison[ info[#info] ] = value; E:GetModule('Minimap'):UpdateSettings() end,
+							args = {
+								position = {
+									order = 1,
+									type = 'select',
+									name = L["Position"],
+									disabled = function() return E.private.general.minimap.hideGarrison end,
+									values = {
+										["LEFT"] = L["Left"],
+										["RIGHT"] = L["Right"],
+										["TOP"] = L["Top"],
+										["BOTTOM"] = L["Bottom"],
+										["TOPLEFT"] = L["Top Left"],
+										["TOPRIGHT"] = L["Top Right"],
+										["BOTTOMLEFT"] = L["Bottom Left"],
+										["BOTTOMRIGHT"] = L["Bottom Right"],
+									},
+								},
+								xOffset = {
+									order = 2,
+									type = 'range',
+									name = L['xOffset'],
+									min = -50, max = 50, step = 1,
+									disabled = function() return E.private.general.minimap.hideGarrison end,
+								},
+								yOffset = {
+									order = 3,
+									type = 'range',
+									name = L['yOffset'],
+									min = -50, max = 50, step = 1,
+									disabled = function() return E.private.general.minimap.hideGarrison end,
+								},
+								hideGarrison = {
+									order = 4,
+									type = 'toggle',
+									name = L["Hide"],
+									get = function(info) return E.private.general.minimap.hideGarrison end,
+									set = function(info, value) E.private.general.minimap.hideGarrison = value; E:StaticPopup_Show("PRIVATE_RL") end,
+								},
+							},
+						},
+						calendar = {
+							order = 2,
+							type = 'group',
+							name = L["Calendar"],
+							guiInline = true,
+							get = function(info) return E.db.general.minimap.icons.calendar[ info[#info] ] end,
+							set = function(info, value) E.db.general.minimap.icons.calendar[ info[#info] ] = value; E:GetModule('Minimap'):UpdateSettings() end,
+							args = {
+								position = {
+									order = 1,
+									type = 'select',
+									name = L["Position"],
+									disabled = function() return E.private.general.minimap.hideCalendar end,
+									values = {
+										["LEFT"] = L["Left"],
+										["RIGHT"] = L["Right"],
+										["TOP"] = L["Top"],
+										["BOTTOM"] = L["Bottom"],
+										["TOPLEFT"] = L["Top Left"],
+										["TOPRIGHT"] = L["Top Right"],
+										["BOTTOMLEFT"] = L["Bottom Left"],
+										["BOTTOMRIGHT"] = L["Bottom Right"],
+									},
+								},
+								xOffset = {
+									order = 2,
+									type = 'range',
+									name = L['xOffset'],
+									min = -50, max = 50, step = 1,
+									disabled = function() return E.private.general.minimap.hideCalendar end,
+								},
+								yOffset = {
+									order = 3,
+									type = 'range',
+									name = L['yOffset'],
+									min = -50, max = 50, step = 1,
+									disabled = function() return E.private.general.minimap.hideCalendar end,
+								},
+								hideCalendar = {
+									order = 4,
+									type = 'toggle',
+									name = L["Hide"],
+									get = function(info) return E.private.general.minimap.hideCalendar end,
+									set = function(info, value) E.private.general.minimap.hideCalendar = value; E:GetModule('Minimap'):UpdateSettings() end,
+								},
+							},
+						},
+						mail = {
+							order = 3,
+							type = 'group',
+							name = MAIL_LABEL,
+							guiInline = true,
+							get = function(info) return E.db.general.minimap.icons.mail[ info[#info] ] end,
+							set = function(info, value) E.db.general.minimap.icons.mail[ info[#info] ] = value; E:GetModule('Minimap'):UpdateSettings() end,
+							args = {
+								position = {
+									order = 1,
+									type = 'select',
+									name = L["Position"],
+									values = {
+										["LEFT"] = L["Left"],
+										["RIGHT"] = L["Right"],
+										["TOP"] = L["Top"],
+										["BOTTOM"] = L["Bottom"],
+										["TOPLEFT"] = L["Top Left"],
+										["TOPRIGHT"] = L["Top Right"],
+										["BOTTOMLEFT"] = L["Bottom Left"],
+										["BOTTOMRIGHT"] = L["Bottom Right"],
+									},
+								},
+								xOffset = {
+									order = 2,
+									type = 'range',
+									name = L['xOffset'],
+									min = -50, max = 50, step = 1,
+								},
+								yOffset = {
+									order = 3,
+									type = 'range',
+									name = L['yOffset'],
+									min = -50, max = 50, step = 1,
+								},
+							},
+						},
+						lfgEye = {
+							order = 3,
+							type = 'group',
+							name = L['LFG Queue'],
+							guiInline = true,
+							get = function(info) return E.db.general.minimap.icons.lfgEye[ info[#info] ] end,
+							set = function(info, value) E.db.general.minimap.icons.lfgEye[ info[#info] ] = value; E:GetModule('Minimap'):UpdateSettings() end,
+							args = {
+								position = {
+									order = 1,
+									type = 'select',
+									name = L["Position"],
+									values = {
+										["LEFT"] = L["Left"],
+										["RIGHT"] = L["Right"],
+										["TOP"] = L["Top"],
+										["BOTTOM"] = L["Bottom"],
+										["TOPLEFT"] = L["Top Left"],
+										["TOPRIGHT"] = L["Top Right"],
+										["BOTTOMLEFT"] = L["Bottom Left"],
+										["BOTTOMRIGHT"] = L["Bottom Right"],
+									},
+								},
+								xOffset = {
+									order = 2,
+									type = 'range',
+									name = L['xOffset'],
+									min = -50, max = 50, step = 1,
+								},
+								yOffset = {
+									order = 3,
+									type = 'range',
+									name = L['yOffset'],
+									min = -50, max = 50, step = 1,
+								},
+							},
+						},
+						difficulty = {
+							order = 4,
+							type = 'group',
+							name = L['Instance Difficulty'],
+							guiInline = true,
+							get = function(info) return E.db.general.minimap.icons.difficulty[ info[#info] ] end,
+							set = function(info, value) E.db.general.minimap.icons.difficulty[ info[#info] ] = value; E:GetModule('Minimap'):UpdateSettings() end,
+							args = {
+								position = {
+									order = 1,
+									type = 'select',
+									name = L["Position"],
+									values = {
+										["LEFT"] = L["Left"],
+										["RIGHT"] = L["Right"],
+										["TOP"] = L["Top"],
+										["BOTTOM"] = L["Bottom"],
+										["TOPLEFT"] = L["Top Left"],
+										["TOPRIGHT"] = L["Top Right"],
+										["BOTTOMLEFT"] = L["Bottom Left"],
+										["BOTTOMRIGHT"] = L["Bottom Right"],
+									},
+								},
+								xOffset = {
+									order = 2,
+									type = 'range',
+									name = L['xOffset'],
+									min = -50, max = 50, step = 1,
+								},
+								yOffset = {
+									order = 3,
+									type = 'range',
+									name = L['yOffset'],
+									min = -50, max = 50, step = 1,
+								},
+							},
+						},
+						challengeMode = {
+							order = 5,
+							type = 'group',
+							name = CHALLENGE_MODE,
+							guiInline = true,
+							get = function(info) return E.db.general.minimap.icons.challengeMode[ info[#info] ] end,
+							set = function(info, value) E.db.general.minimap.icons.challengeMode[ info[#info] ] = value; E:GetModule('Minimap'):UpdateSettings() end,
+							args = {
+								position = {
+									order = 1,
+									type = 'select',
+									name = L["Position"],
+									values = {
+										["LEFT"] = L["Left"],
+										["RIGHT"] = L["Right"],
+										["TOP"] = L["Top"],
+										["BOTTOM"] = L["Bottom"],
+										["TOPLEFT"] = L["Top Left"],
+										["TOPRIGHT"] = L["Top Right"],
+										["BOTTOMLEFT"] = L["Bottom Left"],
+										["BOTTOMRIGHT"] = L["Bottom Right"],
+									},
+								},
+								xOffset = {
+									order = 2,
+									type = 'range',
+									name = L['xOffset'],
+									min = -50, max = 50, step = 1,
+								},
+								yOffset = {
+									order = 3,
+									type = 'range',
+									name = L['yOffset'],
+									min = -50, max = 50, step = 1,
+								},
+							},
+						},
+					},
+				},
 			},		
 		},
 		experience = {
@@ -635,7 +876,8 @@ E.Options.args.general = {
 			name = L['Cooldown Text'],
 			get = function(info)
 				local t = E.db.cooldown[ info[#info] ]
-				return t.r, t.g, t.b, t.a
+				local d = P.cooldown[info[#info]]
+				return t.r, t.g, t.b, t.a, d.r, d.g, d.b
 			end,
 			set = function(info, r, g, b)
 				E.db.cooldown[ info[#info] ] = {}
@@ -663,19 +905,6 @@ E.Options.args.general = {
 						E.db.cooldown[ info[#info] ] = value
 						E:UpdateCooldownSettings();
 					end,				
-				},
-				restoreColors = {
-					type = 'execute',
-					name = L["Restore Defaults"],
-					order = 3,
-					func = function() 
-						E.db.cooldown.expiringColor = P['cooldown'].expiringColor;
-						E.db.cooldown.secondsColor = P['cooldown'].secondsColor;
-						E.db.cooldown.minutesColor = P['cooldown'].minutesColor;
-						E.db.cooldown.hoursColor = P['cooldown'].hoursColor;
-						E.db.cooldown.daysColor = P['cooldown'].daysColor;
-						E:UpdateCooldownSettings();
-					end,
 				},
 				expiringColor = {
 					type = 'color',

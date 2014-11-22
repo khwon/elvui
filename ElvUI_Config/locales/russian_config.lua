@@ -255,7 +255,6 @@ L["Testing:"] = "Тестирование:"
 
 --DataTexts
 L["24-Hour Time"] = "24х часовой формат"
-L['Always Display'] = "Всегда отображать"
 L['Battleground Texts'] = "Текст ПБ"
 L['Change settings for the display of the location text that is on the minimap.'] = "Изменяет опции отображения названия локации на миникарте"
 L['Datatext Panel (Left)'] = "Панель информации (левая)"
@@ -269,9 +268,7 @@ L["left"] = "Слева"
 L["LeftChatDataPanel"] = "Левая панель чата"
 L["LeftMiniPanel"] = "Миникарта, слева"
 L["Local Time"] = "Местное время"
-L['Location Text'] = "Текст локации"
 L["middle"] = "В центре"
-L['Minimap Mouseover'] = "При наведении мыши"
 L['Minimap Panels'] = "Информация у миникарты"
 L['Panel Transparency'] = "Прозрачность панели"
 L["Panels"] = "Панели"
@@ -364,6 +361,20 @@ L["The font that the core of the UI will use."] = "Шрифт для основ�
 L["The texture that will be used mainly for statusbars."] = "Эта текстура будет использоваться в основном для полос состояния."
 L["This texture will get used on objects like chat windows and dropdown menus."] = "Эта текстура будет использоваться для таких объектов как окно чата и выпадающие меню."
 L["Value Color"] = "Цвет значений"
+
+--Minimap
+L['Always Display'] = "Всегда отображать"
+L["Bottom Left"] = true;
+L["Bottom Right"] = true;
+L["Bottom"] = true;
+L["Left"] = true;
+L['Location Text'] = "Текст локации"
+L["Minimap Buttons"] = true;
+L['Minimap Mouseover'] = "При наведении мыши"
+L["Right"] = true;
+L["Top Left"] = true;
+L["Top Right"] = true;
+L["Top"] = true;
 
 --Misc
 L['Install'] = "Установка"
@@ -547,7 +558,7 @@ L['At what point should the text be displayed. Set to -1 to disable.'] = "При
 L['Attach Text to Power'] = "Привязать текст к ресурсу"
 L["Attach To"] = "Прикрепить к"
 L['Aura Bars'] = "Полосы аур"
-L["Aura Spacing"] = true;
+L["Aura Spacing"] = "Отступ аур"
 L['Auto-Hide'] = "Автоматически скрывать"
 L["Bad"] = "Плохое"
 L["Bars will transition smoothly."] = "Полосы будут изменяться плавно"
@@ -758,7 +769,7 @@ L['Select an additional filter to use. If the selected filter is a whitelist and
 L["Select Filter"] = "Выбрать фильтр"
 L["Select Spell"] = "Выбрать заклинание"
 L['Select the display method of the portrait.'] = "Выбирите метод отображения портрета"
-L["Set space between each aura icon."] = true;
+L["Set space between each aura icon."] = "Расстояние между иконками аур."
 L["Set the filter type, blacklisted filters hide any aura on the like and show all else, whitelisted filters show any aura on the filter and hide all else."] = "Выберите тип фильтра. Фильтры типа 'черный список' скрывают все баффы в них и показывают остальные, фильтры типа 'белый список' показывают только присутствующие в них баффы"
 L["Set the font size for unitframes."] = "Устанавливает шрифт для рамок юнитов."
 L["Set the order that the group will sort."] = "Устанавливает метод сортировки в группе."
