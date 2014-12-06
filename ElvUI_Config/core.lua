@@ -203,6 +203,14 @@ E.Options.args.general = {
 					set = function(info, value) E.db.general.afk = value; E:GetModule('AFK'):Toggle() end						
 
 				},			
+				smallerWorldMap = {
+					order = 19,
+					type = 'toggle',
+					name = L['Smaller World Map'],
+					desc = L['Make the world map smaller.'],
+					get = function(info) return E.global.general.smallerWorldMap end,
+					set = function(info, value) E.global.general.smallerWorldMap = value; E:StaticPopup_Show("GLOBAL_RL") end					
+				},
 			},
 		},	
 		media = {
@@ -411,22 +419,31 @@ E.Options.args.general = {
 					},
 					disabled = function() return not E.private.general.minimap.enable end,
 				},
-				icons = {
+				spacer = {
 					order = 4,
+					type = "description",
+					name = "\n",
+				},
+				icons = {
+					order = 5,
 					type = 'group',
 					name = L["Minimap Buttons"],
-					guiInline = true,
 					args = {
 						garrison = {
 							order = 1,
 							type = 'group',
 							name = GARRISON_LOCATION_TOOLTIP,
-							guiInline = true,
 							get = function(info) return E.db.general.minimap.icons.garrison[ info[#info] ] end,
 							set = function(info, value) E.db.general.minimap.icons.garrison[ info[#info] ] = value; E:GetModule('Minimap'):UpdateSettings() end,
 							args = {
-								position = {
+								scale = {
 									order = 1,
+									type = 'range',
+									name = L["Scale"],
+									min = 0.5, max = 2, step = 0.05,
+								},
+								position = {
+									order = 2,
 									type = 'select',
 									name = L["Position"],
 									disabled = function() return E.private.general.minimap.hideGarrison end,
@@ -442,21 +459,21 @@ E.Options.args.general = {
 									},
 								},
 								xOffset = {
-									order = 2,
+									order = 3,
 									type = 'range',
 									name = L['xOffset'],
 									min = -50, max = 50, step = 1,
 									disabled = function() return E.private.general.minimap.hideGarrison end,
 								},
 								yOffset = {
-									order = 3,
+									order = 4,
 									type = 'range',
 									name = L['yOffset'],
 									min = -50, max = 50, step = 1,
 									disabled = function() return E.private.general.minimap.hideGarrison end,
 								},
 								hideGarrison = {
-									order = 4,
+									order = 5,
 									type = 'toggle',
 									name = L["Hide"],
 									get = function(info) return E.private.general.minimap.hideGarrison end,
@@ -468,12 +485,17 @@ E.Options.args.general = {
 							order = 2,
 							type = 'group',
 							name = L["Calendar"],
-							guiInline = true,
 							get = function(info) return E.db.general.minimap.icons.calendar[ info[#info] ] end,
 							set = function(info, value) E.db.general.minimap.icons.calendar[ info[#info] ] = value; E:GetModule('Minimap'):UpdateSettings() end,
 							args = {
-								position = {
+								scale = {
 									order = 1,
+									type = 'range',
+									name = L["Scale"],
+									min = 0.5, max = 2, step = 0.05,
+								},
+								position = {
+									order = 2,
 									type = 'select',
 									name = L["Position"],
 									disabled = function() return E.private.general.minimap.hideCalendar end,
@@ -489,21 +511,21 @@ E.Options.args.general = {
 									},
 								},
 								xOffset = {
-									order = 2,
+									order = 3,
 									type = 'range',
 									name = L['xOffset'],
 									min = -50, max = 50, step = 1,
 									disabled = function() return E.private.general.minimap.hideCalendar end,
 								},
 								yOffset = {
-									order = 3,
+									order = 4,
 									type = 'range',
 									name = L['yOffset'],
 									min = -50, max = 50, step = 1,
 									disabled = function() return E.private.general.minimap.hideCalendar end,
 								},
 								hideCalendar = {
-									order = 4,
+									order = 5,
 									type = 'toggle',
 									name = L["Hide"],
 									get = function(info) return E.private.general.minimap.hideCalendar end,
@@ -515,12 +537,17 @@ E.Options.args.general = {
 							order = 3,
 							type = 'group',
 							name = MAIL_LABEL,
-							guiInline = true,
 							get = function(info) return E.db.general.minimap.icons.mail[ info[#info] ] end,
 							set = function(info, value) E.db.general.minimap.icons.mail[ info[#info] ] = value; E:GetModule('Minimap'):UpdateSettings() end,
 							args = {
-								position = {
+								scale = {
 									order = 1,
+									type = 'range',
+									name = L["Scale"],
+									min = 0.5, max = 2, step = 0.05,
+								},
+								position = {
+									order = 2,
 									type = 'select',
 									name = L["Position"],
 									values = {
@@ -535,13 +562,13 @@ E.Options.args.general = {
 									},
 								},
 								xOffset = {
-									order = 2,
+									order = 3,
 									type = 'range',
 									name = L['xOffset'],
 									min = -50, max = 50, step = 1,
 								},
 								yOffset = {
-									order = 3,
+									order = 4,
 									type = 'range',
 									name = L['yOffset'],
 									min = -50, max = 50, step = 1,
@@ -552,12 +579,17 @@ E.Options.args.general = {
 							order = 3,
 							type = 'group',
 							name = L['LFG Queue'],
-							guiInline = true,
 							get = function(info) return E.db.general.minimap.icons.lfgEye[ info[#info] ] end,
 							set = function(info, value) E.db.general.minimap.icons.lfgEye[ info[#info] ] = value; E:GetModule('Minimap'):UpdateSettings() end,
 							args = {
-								position = {
+								scale = {
 									order = 1,
+									type = 'range',
+									name = L["Scale"],
+									min = 0.5, max = 2, step = 0.05,
+								},
+								position = {
+									order = 2,
 									type = 'select',
 									name = L["Position"],
 									values = {
@@ -572,13 +604,13 @@ E.Options.args.general = {
 									},
 								},
 								xOffset = {
-									order = 2,
+									order = 3,
 									type = 'range',
 									name = L['xOffset'],
 									min = -50, max = 50, step = 1,
 								},
 								yOffset = {
-									order = 3,
+									order = 4,
 									type = 'range',
 									name = L['yOffset'],
 									min = -50, max = 50, step = 1,
@@ -589,12 +621,17 @@ E.Options.args.general = {
 							order = 4,
 							type = 'group',
 							name = L['Instance Difficulty'],
-							guiInline = true,
 							get = function(info) return E.db.general.minimap.icons.difficulty[ info[#info] ] end,
 							set = function(info, value) E.db.general.minimap.icons.difficulty[ info[#info] ] = value; E:GetModule('Minimap'):UpdateSettings() end,
 							args = {
-								position = {
+								scale = {
 									order = 1,
+									type = 'range',
+									name = L["Scale"],
+									min = 0.5, max = 2, step = 0.05,
+								},
+								position = {
+									order = 2,
 									type = 'select',
 									name = L["Position"],
 									values = {
@@ -609,13 +646,13 @@ E.Options.args.general = {
 									},
 								},
 								xOffset = {
-									order = 2,
+									order = 3,
 									type = 'range',
 									name = L['xOffset'],
 									min = -50, max = 50, step = 1,
 								},
 								yOffset = {
-									order = 3,
+									order = 4,
 									type = 'range',
 									name = L['yOffset'],
 									min = -50, max = 50, step = 1,
@@ -626,12 +663,17 @@ E.Options.args.general = {
 							order = 5,
 							type = 'group',
 							name = CHALLENGE_MODE,
-							guiInline = true,
 							get = function(info) return E.db.general.minimap.icons.challengeMode[ info[#info] ] end,
 							set = function(info, value) E.db.general.minimap.icons.challengeMode[ info[#info] ] = value; E:GetModule('Minimap'):UpdateSettings() end,
 							args = {
-								position = {
+								scale = {
 									order = 1,
+									type = 'range',
+									name = L["Scale"],
+									min = 0.5, max = 2, step = 0.05,
+								},
+								position = {
+									order = 2,
 									type = 'select',
 									name = L["Position"],
 									values = {
@@ -646,13 +688,13 @@ E.Options.args.general = {
 									},
 								},
 								xOffset = {
-									order = 2,
+									order = 3,
 									type = 'range',
 									name = L['xOffset'],
 									min = -50, max = 50, step = 1,
 								},
 								yOffset = {
-									order = 3,
+									order = 4,
 									type = 'range',
 									name = L['yOffset'],
 									min = -50, max = 50, step = 1,

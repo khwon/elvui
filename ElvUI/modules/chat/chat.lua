@@ -1,4 +1,4 @@
-﻿local E, L, V, P, G = unpack(select(2, ...)); --Inport: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
+local E, L, V, P, G = unpack(select(2, ...)); --Inport: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
 local CH = E:NewModule('Chat', 'AceTimer-3.0', 'AceHook-3.0', 'AceEvent-3.0')
 local LSM = LibStub("LibSharedMedia-3.0")
 local CreatedFrames = 0;
@@ -18,7 +18,6 @@ local tinsert, tremove, tsort, twipe, tconcat = table.insert, table.remove, tabl
 
 local PLAYER_REALM = gsub(E.myrealm,'[%s%-]','')
 local PLAYER_NAME = E.myname.."-"..PLAYER_REALM
-
 
 local TIMESTAMP_FORMAT
 local DEFAULT_STRINGS = {
@@ -1328,6 +1327,18 @@ function CH:ThrottleSound()
 end
 
 function CH:CheckKeyword(message)
+	for itemLink in message:gmatch("|%x+|Hitem:.-|h.-|h|r") do
+		for keyword, _ in pairs(CH.Keywords) do
+			if itemLink == keyword then
+				if self.db.keywordSound ~= 'None' and not self.SoundPlayed  then
+					PlaySoundFile(LSM:Fetch("sound", self.db.keywordSound), "Master")
+					self.SoundPlayed = true
+					self.SoundTimer = CH:ScheduleTimer('ThrottleSound', 1)
+				end
+			end
+		end
+	end
+	
 	local rebuiltString, lowerCaseWord
 	local isFirstWord = true
 	for word in message:gmatch("[^%s]+") do

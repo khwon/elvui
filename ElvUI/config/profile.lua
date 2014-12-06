@@ -31,31 +31,37 @@ P['general'] = {
 		['locationText'] = 'MOUSEOVER',
 		['icons'] = {
 			['garrison'] = {
+				['scale'] = 0.8,
 				['position'] = "TOPLEFT",
 				['xOffset'] = 0,
 				['yOffset'] = 0,
 			},
 			['calendar'] = {
+				['scale'] = 1,
 				['position'] = "TOPRIGHT",
 				['xOffset'] = 0,
 				['yOffset'] = 0,
 			},
 			['mail'] = {
+				['scale'] = 1,
 				['position'] = "TOPRIGHT",
 				['xOffset'] = 3,
 				['yOffset'] = 4,
 			},
 			['lfgEye'] = {
+				['scale'] = 1,
 				['position'] = "BOTTOMRIGHT",
 				['xOffset'] = 3,
 				['yOffset'] = 0,
 			},
 			['difficulty'] = {
+				['scale'] = 1,
 				['position'] = "TOPLEFT",
 				['xOffset'] = 0,
 				['yOffset'] = 0,
 			},
 			['challengeMode'] = {
+				['scale'] = 1,
 				['position'] = "TOPLEFT",
 				['xOffset'] = 8,
 				['yOffset'] = -8,
@@ -227,6 +233,7 @@ P['auras'] = {
 		['font'] = 'ElvUI Pixel',
 		['fontSize'] = 10,
 		['fontOutline'] = 'MONOCHROMEOUTLINE',
+		['reverseStyle'] = false,
 	},
 	
 	['fadeThreshold'] = 5,
